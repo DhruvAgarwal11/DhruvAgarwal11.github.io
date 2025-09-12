@@ -13,13 +13,45 @@
     <h1>Project 1: Colorizing the Prokudin-Gorskii Photo Collection</h1>
     <h2>Project Description</h2>
     <p>Sergei Prokudin-Gorskii was a photographer who traveled across the Russian empire taking pictures. He was able to capture color images by taking pictures on red, blue, and green glass plates. These need to be aligned with each other, which is the purpose of this project.</p>
-    <h2>Project Implementation</h2>
+    <h2>Single-scale Alignment</h2>
     <p>The most basic implementation involved trying to move the green and red plates along the blue plates. For the small jpg images, I moved plates from -15 to 15 displacements along the x and y axes, which led to good alignment for these when using euclidean distance and NCC as the metrics for comparing the pixel intensities. However, when this naive implementation was used on the larger images, it was far too slow. Additionally, some of the images weren't aligned due to the borders affecting the calculations.</p>
-    <p>Thus, I made two key modifications: I cropped 5% off of each side of the image, leading to the borders being mostly eliminated for the images. In addition, a multiscale pyramid version was implemented. This involved first downscaling the image by 2 on both the width and height ends by averaging 4 of the pixels at a time, reducing until one of the sides had 100 or less pixels. A displacement of 10 would be used on the left and right side at each level, with the image being increased by 2x each time proportional to the downsampling. The NCC led to the best results for the image alignment.</p>
-    <p>This approach worked very well. However, for some images (specifically the emir), the pixel intensities couldn't be directly used as they differ across the glass plates. To compensate for this, I implemented the Sobel operator with a kernel size of 5, which detects the edges in the image rather than the pixel intensities and thus can lead to better comparison for alignment. This greatly improved the emir image's alignment.</p>
-    <p>Here is an image of the emir before implementing the Sobel Edge Detector, but it became far better after its implementation:</p>
+    <p>Here are the low resolution images when run through the Single-Scale Alignment:</p>
+    <center>
+        <table style="width:70%">
+            <tr>
+                <th style="width:55%;">Image</th>
+                <th>Green Offset</th>
+                <th>Red Offset</th>
+                <th>Time (sec)</th>
+            </tr>
+            <tr>
+                <td><img src="outputs/cathedral_single.jpg" style="width:55%;"></td>
+                <td>(5, 2)</td>
+                <td>(12, 3)</td>
+                <td>1.33</td>
+            </tr>
+            <tr>
+                <td><img src="outputs/monastery_single.jpg" style="width:55%;"></td>
+                <td>(-3, 2)</td>
+                <td>(3, 2)</td>
+                <td>1.05</td>
+            </tr>
+            <tr>
+                <td><img src="outputs/tobolsk_single.jpg" style="width:55%;"></td>
+                <td>(3, 3)</td>
+                <td>(6, 3)</td>
+                <td>1.24</td>
+            </tr>
+        </table>
+    </center>
+    <h2>Multi-scale Pyramid Alignment</h2>
+    <p>Thus, I made two key modifications: I cropped 5% off of each side of the image, leading to the borders being mostly eliminated for the images. This reduced the effect of comparing the border pixels, which are relatively irrelevant compared to the pixels in the actual image.</p>
+    <p>In addition, a multiscale pyramid version was implemented. This involved first downscaling the image by 2 on both the width and height ends by averaging 4 of the pixels at a time, reducing until one of the sides had 100 or less pixels. A displacement of 10 would be used on the left and right side at each level (to reduce the computation needed as compared to the original displacement of 15 on each side), with the image being increased by 2x each time proportional to the downsampling. The NCC led to the best results for the image alignment, as compared to the Euclidean distance.</p>
+    <p>This approach worked very well. However, for some images (specifically the emir), the pixel intensities couldn't be directly used as they differ across the glass plates. To compensate for this, I implemented the Sobel operator with a kernel size of 5, calculating two different gradient images (horizontal intensity changes and vertical intensity changes). The magnitude was taken at each pixel to determine the intensity of the pixel, making the edges much more prominent. This greatly improved the emir image's alignment.</p>
+    <p>Here is an image of the emir before implementing the Sobel Edge Detector:</p>
     <img src = "outputs/emir_before.jpg" style="width:30%">
-    <h2>Table with Results of Images</h2>
+    <p>This was dramatically improved upon by using Sobel, as shown in the table below</p>
+    <h2>Given Image Results</h2>
     <center>
         <table style="width:70%">
             <tr>
@@ -111,6 +143,17 @@
                 <td>(60, 17)</td>
                 <td>(123, 13)</td>
                 <td>41.52</td>
+            </tr>
+        </table>
+    </center>
+    <h2>Additional Image Results</h2>
+    <center>
+        <table style="width:70%">
+            <tr>
+                <th style="width:55%;">Image</th>
+                <th>Green Offset</th>
+                <th>Red Offset</th>
+                <th>Time (sec)</th>
             </tr>
             <tr>
                 <td><img src="outputs/isfandiyar.jpg" style="width:55%;"></td>
