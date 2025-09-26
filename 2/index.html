@@ -11,7 +11,7 @@
 </head>
 <body>
     <h1>Project 2: Fun with Filters and Frequencies!</h1>
-
+    <p>The most important thing I learned in this project is how many different ways images can be played around with to get different variations of the </p>
     <h2>Part 1.1: Convolutions from Scratch!</h2>
     <p>Here, we can see the results of convolutions of a box filter, and the finite difference operators on a selfie of me. Multiple methods for convolution were tested, including a variation with 4 for-loops, a variation with 2 for-loops, and a scipy's convolve2d function. The time for the 4 for-loop version was 60.95 seconds, for the 2 for-loop version was 4.68 seconds, and for the convolve2d function was 0.16 seconds, which makes sense since more and more portions were vectorized, leading to faster speeds. Boundaries were handled by first zero-padding the image based on the kernel size (add padding on both sides of k // 2 to keep the image size the same).</p>
     <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
@@ -98,6 +98,18 @@
             <img src="imgs/part1_3/cameraman_gaussian_binary.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
         </div>
     </div>
+    <p>Here are the images of the DoG filters:</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>D_x</b></p>
+            <img src="imgs/part1_3/dogx_filter.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>D_y</b></p>
+            <img src="imgs/part1_3/dogy_filter.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
     <p>Procedure 2 Results</p>
     <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
         <div style="text-align: center; margin: 0 10px;">
@@ -122,7 +134,7 @@
     </div>
     <p>Both procedures, using a threshold of 15, resulted in the same binary image being created. The gradient, and cameraman images with the D_x and D_y applied in one step with the convolution led to more visible edges, but the same final image.</p>
     <h2>Part 2.1: Image "Sharpening"</h2>
-    <p>Here, we are going to demonstrate image sharpening of the Taj Mahal. The unsharp mask filter works by subtracting the blurred version of the image (which can be done by applying a Gaussian filter) from the original image, which leaves the high-frequency parts of the image (which are typically the edges depending on the strength of the filter). This high-frequency image can then be added to the original image with a certain constant multiplied by it to make it look like the original image has been sharpened.</p>
+    <p>Here, we are going to demonstrate image sharpening of the Taj Mahal. The unsharp mask filter works by subtracting the blurred version of the image (which can be done by applying a Gaussian filter) from the original image, which leaves the high-frequency parts of the image (which are typically the edges depending on the strength of the filter). This high-frequency image can then be added to the original image with a certain constant multiplied by it to make it look like the original image has been sharpened. Thus, it's formula will be the original image subtracted by the gaussian multiplied by the gaussian applied to the image, plus the summation of the high frequency components of the image multiplied by a constant alpha, and this can be convolved with the image.</p>
     <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
         <div style="text-align: center; margin: 0 10px;">
             <p><b>Original Taj Mahal Image</b></p>
@@ -385,6 +397,21 @@
         <div style="text-align: center; margin: 0 10px;">
             <p><b>Ball-Racket Blend</b></p>
             <img src="imgs/part2_4/ball_racket.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div>Here is level 4 of the laplacians for the racket and ball, and them combined.</div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Ball</b></p>
+            <img src="imgs/part2_4/ball_laplacian.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Racket</b></p>
+            <img src="imgs/part2_4/racket_laplacian.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Ball-Racket Blend</b></p>
+            <img src="imgs/part2_4/combined_laplacian.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
         </div>
     </div>
 </body>
