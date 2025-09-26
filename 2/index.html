@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project 2: Fun with Filters and Frequencies!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Project 2: Fun with Filters and Frequencies!</h1>
+
+    <h2>Part 1.1: Convolutions from Scratch!</h2>
+    <p>Here, we can see the results of convolutions of a box filter, and the finite difference operators on a selfie of me. Multiple methods for convolution were tested, including a variation with 4 for-loops, a variation with 2 for-loops, and a scipy's convolve2d function. The time for the 4 for-loop version was 60.95 seconds, for the 2 for-loop version was 4.68 seconds, and for the convolve2d function was 0.16 seconds, which makes sense since more and more portions were vectorized, leading to faster speeds. Boundaries were handled by first zero-padding the image based on the kernel size (add padding on both sides of k // 2 to keep the image size the same).</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Selfie</b></p>
+            <img src="imgs/part1_1/original_grayscale.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Selfie with 9x9 Box Filter Applied</b></p>
+            <img src="imgs/part1_1/selfie_box_filter.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Selfie with D_x Applied</b></p>
+            <img src="imgs/part1_1/selfie_dx.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Selfie with D_y Applied</b></p>
+            <img src="imgs/part1_1/selfie_dy.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <p>Here are the corresponding code snippets for the padding, 4 for-loop version, 2 for-loop version, and scipy convolve2d versions.</p>
+    <img src="imgs/part1_1/code_snippets.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+    <img src="imgs/part1_1/scipy_convolve2d_code.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+
+
+    <h2>Part 1.2: Finite Difference Operator</h2>
+    <p>These are the partial derivatives in x and y, the gradient magnitude image, and the binarized edge image for the cameraman image. The partial derviative in the x direction led to the vertical lines being more accentuated, whereas in the y direction led to the horizontal lines being accentuated. The gradient magnitude image was created by taking the square root of the sum of the squares of the individual partial derivative images. The binary image was created by choosing the pixels above the threshold of 55, as this led to most of the edges still showing up while removing most of the noise, based on a qualitative assessment of different values.</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Cameraman Image</b></p>
+            <img src="imgs/part1_2/original_camerman.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Cameraman with D_y Applied</b></p>
+            <img src="imgs/part1_2/dy_cameraman.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Cameraman with D_x Applied</b></p>
+            <img src="imgs/part1_2/dx_camerman.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Gradient Magnitude Cameraman</b></p>
+            <img src="imgs/part1_2/grad_mag_cameraman.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Binary Cameraman</b></p>
+            <img src="imgs/part1_2/binary_camerman.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    
+    <h2>Part 1.3: Derivative of Gaussian (DoG) Filter</h2>
+    <p>Here is a demonstration of the same final image resulting from doing the following procedures: 1) Blurring the original image with a gaussian, convolving the gaussian image with D_x and D_y, and then creating the gradient magnitude and binarized versions of these images. 2) Convolving the gaussian filter with D_x and D_y separately, taking the convolution of the the original cameraman image with these two new filters, making the gradient magnitude image from these two, and then converting it into binary.</p>
+    <p>Procedure 1 Results</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Cameraman with Blurring</b></p>
+            <img src="imgs/part1_3/cameraman_gaussian.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Blurred Cameraman with D_x Applied</b></p>
+            <img src="imgs/part1_3/cameraman_gaussian_dx.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Blurred Cameraman with D_y Applied</b></p>
+            <img src="imgs/part1_3/cameraman_gaussian_dy.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Gradient Magnitude Cameraman</b></p>
+            <img src="imgs/part1_3/cameraman_gaussian_grad_mag.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Binary Cameraman</b></p>
+            <img src="imgs/part1_3/cameraman_gaussian_binary.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <p>Procedure 2 Results</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Blurred Cameraman with D_x Applied</b></p>
+            <img src="imgs/part1_3/dogx.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Blurred Cameraman with D_y Applied</b></p>
+            <img src="imgs/part1_3/dogy.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Gradient Magnitude Cameraman</b></p>
+            <img src="imgs/part1_3/dogx_dogy_grad.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Binary Cameraman</b></p>
+            <img src="imgs/part1_3/dogx_dogy_binary.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <p>Both procedures, using a threshold of 15, resulted in the same binary image being created. The gradient, and cameraman images with the D_x and D_y applied in one step with the convolution led to more visible edges, but the same final image.</p>
+    <h2>Part 2.1: Image "Sharpening"</h2>
+    <p>Here, we are going to demonstrate image sharpening of the Taj Mahal. The unsharp mask filter works by subtracting the blurred version of the image (which can be done by applying a Gaussian filter) from the original image, which leaves the high-frequency parts of the image (which are typically the edges depending on the strength of the filter). This high-frequency image can then be added to the original image with a certain constant multiplied by it to make it look like the original image has been sharpened.</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Taj Mahal Image</b></p>
+            <img src="imgs/part2_1/orig_taj.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Blurred Taj Mahal</b></p>
+            <img src="imgs/part2_1/blur_taj.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Sharpened Taj Mahal (with alpha 1)</b></p>
+            <img src="imgs/part2_1/sharp_taj_1.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Sharpened Taj Mahal (with alpha 2)</b></p>
+            <img src="imgs/part2_1/sharp_taj_2.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Sharpened Taj Mahal (with alpha 5)</b></p>
+            <img src="imgs/part2_1/sharp_taj_5.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <p>We can see that applying different alpha values led to different amounts of sharpening, with the Taj Mahal with alpha 5 having the edges sticking out the most and it thus looking "sharper".</p>
+    <p>Here, we are going to demonstrate image sharpening of a blurred version of the Taj Mahal.</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Blurred Taj Mahal Image</b></p>
+            <img src="imgs/part2_1/blurred_taj.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Blurred Taj Mahal (even further)</b></p>
+            <img src="imgs/part2_1/blur_blur_taj.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Sharpened Blurred Taj Mahal (with alpha 1)</b></p>
+            <img src="imgs/part2_1/blur_blur_taj_1.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Sharpened Blurred Taj Mahal (with alpha 2)</b></p>
+            <img src="imgs/part2_1/blur_blur_taj_2.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Sharpened Blurred Taj Mahal (with alpha 5)</b></p>
+            <img src="imgs/part2_1/blur_blur_taj_5.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <p>We can see here that when we tried to sharpen the blurred image, it added additional curved lines around which were caused by the intial blurring of hte image, and these become more accentuated. It's also not able to get to the original amount of sharpening since the initial blurred image didn't include as clear edges.</p>
+    <p>Here, we are going to demonstrate image sharpening of a tennis ball.</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Ball Image</b></p>
+            <img src="imgs/part2_1/orig_ball.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Blurred Ball</b></p>
+            <img src="imgs/part2_1/blur_ball.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Sharpened Ball (with alpha 1)</b></p>
+            <img src="imgs/part2_1/sharp_ball_1.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Sharpened Ball (with alpha 2)</b></p>
+            <img src="imgs/part2_1/sharp_ball_2.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Sharpened Ball (with alpha 5)</b></p>
+            <img src="imgs/part2_1/sharp_ball_5.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+
+    <h2>Part 2.2: Hybrid Images</h2>
+    <p>Here we are going to demonstrate how to combine two images into a hybrid image, by having one being able to be seen from close by (high pass filter) and one from far away (low pass filter). This happens because when we are closer to the image, the edges are most visible, but when we're far away, the rest of the blurred image becomes more visible.</p>
+    <p>Here is a step-by-step visualization for a combination of Djokovic (low-pass) and Nadal (high-pass).</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Djokovic</b></p>
+            <img src="imgs/part2_2/djokovic_orig.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Nadal Image</b></p>
+            <img src="imgs/part2_2/nadal_orig.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Log Mag. FFT Djokovic</b></p>
+            <img src="imgs/part2_2/djokovic_orig_fourier.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Log Mag. FFT Nadal</b></p>
+            <img src="imgs/part2_2/nadal_orig_fourier.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Low-Pass Filtered Djokovic</b></p>
+            <img src="imgs/part2_2/djokovic_blurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>High-Pass Filtered Nadal</b></p>
+            <img src="imgs/part2_2/nadal_high.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Log Mag. FFT Filtered Djokovic</b></p>
+            <img src="imgs/part2_2/djokovic_low_fourier.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Log Mag. FFT Filtered Nadal</b></p>
+            <img src="imgs/part2_2/nadal_high_fourier.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Hybrid Djokovic Nadal</b></p>
+            <img src="imgs/part2_2/djokovic_nadal_hybrid.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Log Mag. FFT Hybrid Djokovic Nadal</b></p>
+            <img src="imgs/part2_2/djokovic_nadal_hybrid_fourier.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <p>In the fourier transform, you can see that the initial images included both high and low frequencies, while filtering led to the low-pass filtered image only containing low frequencies, and vice-versa for the high-pass filtered image. The hybrid image was a combination of these two.</p>
+    <p>Here is a couple more examples of hybrid images, feature Derek and his former cat Nutmeg, and a cantaloupe-watermelon hybrid.
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Watermelon</b></p>
+            <img src="imgs/part2_2/watermelon_orig.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Cantaloupe</b></p>
+            <img src="imgs/part2_2/cantaloupe_orig.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Hybrid Watermelon Cantaloupe</b></p>
+            <img src="imgs/part2_2/watermelon_cantaloupe_hybrid.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Derek</b></p>
+            <img src="imgs/part2_2/derek_orig.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Original Nutmeg</b></p>
+            <img src="imgs/part2_2/nutmeg_orig.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Hybrid Derek Nutmeg</b></p>
+            <img src="imgs/part2_2/derek_nutmeg_hybrid.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <h2>Part 2.3: Gaussian and Laplacian Stacks</h2>
+    <p>Here, we demonstrate the process of blending two images based on a mask that we create. For this first demo, we attempt to blend an orange and an apple about the center of the image. This is done by creating a mask which is white on the right half, and black on the left half, which is applied to the orange, while the opposite is applied to the apple. Then, we sum the product of the laplacian with the mask, and sum that for both images to get each level. For the final step, we also add the Gaussian image at the level. The mask is blended at each level when multiplying as well. For the sigma value, it was multiplied by 2 at each level, since as we progressed to higher levels, we wanted it to be more blended together and that's what a higher sigma helps lead to.</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/ol0.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(a)</b></p>
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/al0.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(b)</b></p>
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/aol0.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(c)</b></p>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/ol2.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(d)</b></p>
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/al2.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(e)</b></p>
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/aol2.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(f)</b></p>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/ol4.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(g)</b></p>
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/al4.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(h)</b></p>
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/aol4.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(i)</b></p>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/o_f.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(j)</b></p>
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/a_f.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(k)</b></p>
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <img src="imgs/part2_4/ao_f.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+            <p><b>(l)</b></p>
+        </div>
+    </div>
+    <h2>Part 2.4: Multiresolution Blending</h2>
+    <p>Here, we demonstrate the blending of a watermelon and a cantaloupe with each other, as well as a raquet with a tennis ball.</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Cantaloupe</b></p>
+            <img src="imgs/part2_4/cantaloupe.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Watermelon</b></p>
+            <img src="imgs/part2_4/watermelon.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Watermelon Mask</b></p>
+            <img src="imgs/part2_4/wc_mask.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Watermelon-Cantaloupe Blend</b></p>
+            <img src="imgs/part2_4/wc_combined.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Ball</b></p>
+            <img src="imgs/part2_4/ball.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Racket</b></p>
+            <img src="imgs/part2_4/racket.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Ball Mask</b></p>
+            <img src="imgs/part2_4/ball_mask.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Ball-Racket Blend</b></p>
+            <img src="imgs/part2_4/ball_racket.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+</body>
+</html>
