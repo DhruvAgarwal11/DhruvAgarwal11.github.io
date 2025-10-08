@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project 3: [Auto]Stitching Photo Mosaics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Project 3: [Auto]Stitching Photo Mosaics</h1>
+    <h2>Part 1: Image Warping and Mosaicing </h2>
+    <h3>A.1: Shoot the Pictures</h3>
+    <p>Here are some pictures that I shot of the Campanile, and the part of campus right outside the Campanile.</p>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile Image Part 1</b></p>
+            <img src="imgs/campanile_imgs/IMG_6235.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile Image Part 2</b></p>
+            <img src="imgs/campanile_imgs/IMG_6237.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile Image Part 3</b></p>
+            <img src="imgs/campanile_imgs/IMG_6239.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus Part 1</b></p>
+            <img src="imgs/opposite_campanille/IMG_6252.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus Part 2</b></p>
+            <img src="imgs/opposite_campanille/IMG_6254.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus Part 3</b></p>
+            <img src="imgs/opposite_campanille/IMG_6257.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <h3>Part A.2: Recover Homographies</h3>
+
+    <h3>Part A.3: Warp the Images</h3>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Steph Curry Original Image</b></p>
+            <img src="imgs/rectification/steph_unrectified.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Steph Curry Rectified (Nearest Neighbors)</b></p>
+            <img src="imgs/rectification/steph_rectified_nn.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Steph Curry Rectified (Bilinear Interpolation)</b></p>
+            <img src="imgs/rectification/steph_rectified_bilinear.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Windows Original Image</b></p>
+            <img src="imgs/rectification/window_unrectified.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Windows Rectified (Nearest Neighbors)</b></p>
+            <img src="imgs/rectification/window_rectified_nn.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Windows Rectified (Bilinear Interpolation)</b></p>
+            <img src="imgs/rectification/window_rectified_bilinear.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    
+    <h3>Part A.4: Blend the Images into a Mosaic</h3>
+        <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile Left View</b></p>
+            <img src="imgs/campanile_imgs/IMG_6235.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile Middle View</b></p>
+            <img src="imgs/campanile_imgs/IMG_6237.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile Right View</b></p>
+            <img src="imgs/campanile_imgs/IMG_6239.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile NN Blurred</b></p>
+            <img src="imgs/campanile_imgs/camp_nn_blurred_full.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile NN Unblurred</b></p>
+            <img src="imgs/campanile_imgs/campnnunblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile Bilinear Interpolation Blurred</b></p>
+            <img src="imgs/campanile_imgs/camp_bilinear_blurred_full.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campanile Bilinear Interpolation Unblurred</b></p>
+            <img src="imgs/campanile_imgs/camp_bilinear_full_unblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus Left View</b></p>
+            <img src="imgs/opposite_campanille/IMG_6252.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus Middle View</b></p>
+            <img src="imgs/opposite_campanille/IMG_6254.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus Right View</b></p>
+            <img src="imgs/opposite_campanille/IMG_6257.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus NN Blurred</b></p>
+            <img src="imgs/opposite_campanille/campusnnblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus NN Unblurred</b></p>
+            <img src="imgs/opposite_campanille/campusnnblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus Bilinear Interpolation Blurred</b></p>
+            <img src="imgs/opposite_campanille/campusbilinearblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Campus Bilinear Interpolation Unblurred</b></p>
+            <img src="imgs/opposite_campanille/campusbilinearunblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+        <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Hearst Room Left View</b></p>
+            <img src="imgs/hearst_imgs/IMG_6324.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Hearst Room Right View</b></p>
+            <img src="imgs/hearst_imgs/IMG_6326.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Hearst NN Blurred</b></p>
+            <img src="imgs/hearst_imgs/hearst_full_nn_blurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Hearst NN Unblurred</b></p>
+            <img src="imgs/hearst_imgs/hearst_unblurred_nn.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Hearst Bilinear Interpolation Blurred</b></p>
+            <img src="imgs/hearst_imgs/hearst_bilinear_blurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+
+        <div style="text-align: center; margin: 0 10px;">
+            <p><b>Hearst Bilinear Interpolation Unblurred</b></p>
+            <img src="imgs/hearst_imgs/hearst_bilinear_unblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        </div>
+    </div>
+
+    
+</body>
+</html>
