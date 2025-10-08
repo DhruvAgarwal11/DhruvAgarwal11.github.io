@@ -3,193 +3,395 @@
 <head>
     <title>Project 3: [Auto]Stitching Photo Mosaics</title>
     <style>
+        :root {
+            --bg: #0f1220;
+            --panel: #14182b;
+            --panel-2: #0f1424;
+            --text: #e6e8ef;
+            --muted: #a9afc6;
+            --accent: #6ea8fe;
+            --accent-2: #8b5cf6;
+            --border: #262c45;
+            --shadow: 0 10px 25px rgba(0,0,0,0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            color: var(--text);
+            background: radial-gradient(1200px 600px at 10% -10%, rgba(142, 97, 255, 0.15), transparent 40%),
+                        radial-gradient(1200px 600px at 110% 10%, rgba(58, 139, 255, 0.15), transparent 40%),
+                        var(--bg);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        header.hero {
+            background: linear-gradient(135deg, rgba(110,168,254,0.12), rgba(139,92,246,0.12));
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+        }
+
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 24px;
+        }
+
+        h1 {
+            margin: 0 0 6px 0;
+            font-size: 28px;
+            letter-spacing: 0.2px;
+            background: linear-gradient(90deg, #e6e8ef, #a6b9ff 60%, #c5a3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        h2 {
+            margin: 24px 0 12px;
+            font-size: 22px;
+            color: #f3f5ff;
+        }
+
+        h3 {
+            margin: 20px 0 10px;
+            font-size: 18px;
+            color: #e9ecff;
+        }
+
+        p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .section {
+            background: linear-gradient(180deg, var(--panel), var(--panel-2));
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            margin: 18px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            align-items: start;
+        }
+
+        @media (max-width: 960px) {
+            .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 640px) {
+            .gallery { grid-template-columns: 1fr; }
+        }
+
+        figure.img-card {
+            margin: 0;
+            background: #0e1323;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        figure.img-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+        }
+
+        figure.img-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            background: #0b1020;
+        }
+
+        figcaption {
+            padding: 10px 12px;
+            text-align: center;
+            font-size: 14px;
+            color: #d8dcf0;
+            border-top: 1px solid var(--border);
+        }
+
+        .code-block, .matrix-block {
+            background: #0b1020;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            overflow-x: auto;
+            box-shadow: var(--shadow);
+        }
+
+        pre {
+            margin: 0;
+            color: #c7d2fe;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .note {
+            color: #ffd399;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <h1>Project 3: [Auto]Stitching Photo Mosaics</h1>
-    <h2>Part 1: Image Warping and Mosaicing </h2>
-    <h3>A.1: Shoot the Pictures</h3>
-    <p>Here are some pictures that I shot of the Campanile, and the part of campus right outside the Campanile.</p>
-    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile Image Part 1</b></p>
-            <img src="imgs/campanile_imgs/IMG_6235.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+    <header class="hero">
+        <div class="hero-inner">
+            <h1>Project 3: [Auto]Stitching Photo Mosaics</h1>
+            <p class="subtitle">Part 1: Image Warping and Mosaicing</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h3>A.1: Shoot the Pictures</h3>
+            <p>Here are some pictures that I shot of the Campanile, and the part of campus right outside the Campanile.</p>
+            <p>These are examples of projective transformations, where the center of projection was fixed, but the camera was rotated to be able to capture different views of the scene.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/IMG_6235.jpg" alt="Campanile Image Part 1">
+                    <figcaption>Campanile Image Part 1</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/IMG_6237.jpg" alt="Campanile Image Part 2">
+                    <figcaption>Campanile Image Part 2</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/IMG_6239.jpg" alt="Campanile Image Part 3">
+                    <figcaption>Campanile Image Part 3</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/IMG_6252.jpg" alt="Campus Part 1">
+                    <figcaption>Campus Part 1</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/IMG_6254.jpg" alt="Campus Part 2">
+                    <figcaption>Campus Part 2</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/IMG_6257.jpg" alt="Campus Part 3">
+                    <figcaption>Campus Part 3</figcaption>
+                </figure>
+            </div>
         </div>
 
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile Image Part 2</b></p>
-            <img src="imgs/campanile_imgs/IMG_6237.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        <div class="section">
+            <h3>Part A.2: Recover Homographies</h3>
+            <p>This part of the project focused on constructing homography matrices (3x3) that could be used to transform the coordinates from one plane to another plane. </p>
+            <p>The system of equations representing this transformation is Ax = b, where x contains the 8 degrees of freedom in the homography matrix (the last value is just 1). x[0:3] represents the first row, x[3:6] represents the second row, and x[6:8] + [1] represents the last row in the homography matrix.</p>
+            <p>In this representation, the least squares problem is solved to determine x, since having just 4 correspondences leads to instability and thus additional correspondences are also provided.</p>
+            <p>The first row of A consists of: [im1_point[0], im1_point[1], 1, 0, 0, 0, -im2_point[0] * im1_point[0], -im2_point[0] * im1_point[1]]</p>
+            <p>The second row of A consists of [0, 0, 0, im1_point[0], im1_point[1], 1, -im2_point[1] * im1_point[0], -im2_point[1] * im1_point[1]]</p>
+            <p>b is a vector where the first value is im2_point[0] and the second is im2_point[1].</p>
+            <p>im1_point is the point in the first image, and each selected point can be represented by two values for the x and y location in the image. Similarly, im2_point is the corresponding point in the second image.</p>
+            <p>This is repeated for all sets of correspondences between image11 and image 2, and 2 rows are added for each correspondence.</p>
+            <p>In these images, you can see the correspondences between the two. In the first, this is represented by the red numbers, and in the second, the same ones are represented by the "missing image" symbol. <span class="note">NOTE: May need to zoom in to view them.</span></p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/homographies/correspondence_1.png" alt="Correspondences: Image 1">
+                    <figcaption>Image 1</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/homographies/correspondence_2.png" alt="Correspondences: Image 2">
+                    <figcaption>Image 2</figcaption>
+                </figure>
+            </div>
+            <p>The system of equations for this specifically is: </p>
+            <div class="matrix-block">
+                <p><b>Matrix A (14×8):</b></p>
+                <pre>
+[[ 467  459    1    0    0    0 -68182 -67014]
+[   0    0    0  467  459    1-214353-210681]
+[ 492  531    1    0    0    0 -81672 -88146]
+[   0    0    0  492  531    1-259776-280368]
+[ 548  471    1    0    0    0-122204-105033]
+[   0    0    0  548  471    1-255368-219486]
+[ 348  389    1    0    0    0  -3828  -4279]
+[   0    0    0  348  389    1-135024-150932]
+[ 430  767    1    0    0    0 -45580 -81302]
+[   0    0    0  430  767    1-331530-591357]
+[ 451  457    1    0    0    0 -58179 -58953]
+[   0    0    0  451  457    1-207009-209763]
+[ 413  215    1    0    0    0 -35931 -18705]
+[   0    0    0  413  215    1 -84252 -43860]]
+                </pre>
+                <p><b>Vector b (14×1):</b></p>
+                <pre>
+[146, 459, 166, 528, 223, 466, 11, 388, 106, 771, 129, 459, 87, 204]
+                </pre>
+            </div>
+
+            <p>The recovered homography matrix is: </p>
+            <div class="code-block">
+                <p><b>Homography Matrix H (3×3):</b></p>
+                <pre>
+H = [[ 1.7300776e+00   9.3599614e-03  -5.8921948e+02]
+     [ 4.1400787e-01   1.5915660e+00  -2.1489316e+02]
+     [ 1.0696867e-03   9.8544719e-05   1.0000000e+00]]
+                </pre>
+            </div>
         </div>
 
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile Image Part 3</b></p>
-            <img src="imgs/campanile_imgs/IMG_6239.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
+        <div class="section">
+            <h3>Part A.3: Warp the Images</h3>
+            <p>This part consisted of using nearest neighbors and bilinear interpolation techniques to be able to move images into another plane. To ensure that there weren't random gaps in the image when directly applying the homography matrix from the first image to the other image, inverse warping had to be used. This process involved first applying the homography matrix to the first image, determining the boundaries for the image in the new plane, and then performing an inverse warping using the inverse of the homography matrix. When performing this inverse warping, the pixels in the new plane wouldn't directly line up with the pixels in the original plane. Thus, two interpolation methods were used: nearest neighbors and bilinear interpolation. Bilinear interpolation focused on taking the weighted average of four neighboring pixels, while the nearest neighbors approach involved choosing the nearest pixel by euclidean distance in the original image. The pixels were only chosen if they were inside the original boundaries of the initial image.</p>
+            <p>Both approaches had their tradeoffs. Nearest neighbors was significantly faster than bilinear interpolation and it was less blurry, but the bilinear interpolation looked a bit smoother. However, nearest neighbors was also relatively smooth.</p>
+            <p>These are two examples of images that were rectified using nearest neighbors and bilinear interpolation. The points that were picked were the corners of the Steph Curry poster and window sill on the top with the blinds.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/rectification/steph_unrectified.jpg" alt="Steph Curry Original">
+                    <figcaption>Steph Curry Original Image</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/rectification/steph_rectified_nn.png" alt="Steph Rectified - Nearest Neighbors">
+                    <figcaption>Steph Curry Rectified (Nearest Neighbors)</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/rectification/steph_rectified_bilinear.png" alt="Steph Rectified - Bilinear">
+                    <figcaption>Steph Curry Rectified (Bilinear)</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/rectification/window_unrectified.jpg" alt="Windows Original">
+                    <figcaption>Window Original Image</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/rectification/window_rectified_nn.png" alt="Windows Rectified - Nearest Neighbors">
+                    <figcaption>Window Rectified (Nearest Neighbors)</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/rectification/window_rectified_bilinear.png" alt="Windows Rectified - Bilinear">
+                    <figcaption>Window Rectified (Bilinear)</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Part A.4: Blend the Images into a Mosaic</h3>
+            <p>This part consisted of blending multiple images into a singular mosaic. To do this, there were multiple steps. I first chose a reference image (the middle image if there were 3 images), and then warped the other images into the plane corresponding to that. I used the correspondence tool created by one of the prior CS180 students to find corresponding points between the images. Then, I created a new canvas which was larger than the size of the reference image to be able to account for where the pixels in the non-reference images were relative to it. This could lead to pixels to the left, right, above, or below the image. Offsets had to be managed appropriately here. The first approach placed the reference image in the canvas, and one-by-one added the other warped images to the canvas, replacing the pixels even if there was already a value there as long as this new image had a non-black pixel there. This led to there being obvious boundaries where the images were being combined with one another.</p>
+            <p>Thus, I applied alpha blending to ensure that there was more smoothing. To do this, I created a mask which was 1 at the center of the images, and slowly become 0 at the outside of the image using the distance_transform_edt function. Then, when combining the images, rather than just replacing the pixels when there was a value, it would added to the existing value at that pixel with the appropriate weighting alpha from that image, and then divided at the end by the total of the alphas to normalize it. This led to much more smooth boundaries. This can be seen clearly in the images below.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/IMG_6235.jpg" alt="Campanile Left View">
+                    <figcaption>Campanile Left View</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/IMG_6237.jpg" alt="Campanile Middle View">
+                    <figcaption>Campanile Middle View</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/IMG_6239.jpg" alt="Campanile Right View">
+                    <figcaption>Campanile Right View</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/camp_nn_blurred_full.png" alt="Campanile NN Blurred">
+                    <figcaption>Campanile NN Blurred</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/campnnunblurred.png" alt="Campanile NN Unblurred">
+                    <figcaption>Campanile NN Unblurred</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/camp_bilinear_blurred_full.png" alt="Campanile Bilinear Blurred">
+                    <figcaption>Campanile Bilinear Blurred</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/camp_bilinear_full_unblurred.png" alt="Campanile Bilinear Unblurred">
+                    <figcaption>Campanile Bilinear Unblurred</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/IMG_6252.jpg" alt="Campus Left View">
+                    <figcaption>Campus Left View</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/IMG_6254.jpg" alt="Campus Middle View">
+                    <figcaption>Campus Middle View</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/IMG_6257.jpg" alt="Campus Right View">
+                    <figcaption>Campus Right View</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/campusnnblurred.png" alt="Campus NN Blurred">
+                    <figcaption>Campus NN Blurred</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/campusnnunblurred.png" alt="Campus NN Unblurred">
+                    <figcaption>Campus NN Unblurred</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/campusbilinearblurred.png" alt="Campus Bilinear Blurred">
+                    <figcaption>Campus Bilinear Blurred</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/campusbilinearunblurred.png" alt="Campus Bilinear Unblurred">
+                    <figcaption>Campus Bilinear Unblurred</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/hearst_imgs/IMG_6324.jpg" alt="Hearst Room Left View">
+                    <figcaption>Hearst Room Left View</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/hearst_imgs/IMG_6326.jpg" alt="Hearst Room Right View">
+                    <figcaption>Hearst Room Right View</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/hearst_imgs/hearst_full_nn_blurred.png" alt="Hearst NN Blurred">
+                    <figcaption>Hearst NN Blurred</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/hearst_imgs/hearst_unblurred_nn.png" alt="Hearst NN Unblurred">
+                    <figcaption>Hearst NN Unblurred</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/hearst_imgs/hearst_bilinear_blurred.png" alt="Hearst Bilinear Blurred">
+                    <figcaption>Hearst Bilinear Blurred</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/hearst_imgs/hearst_bilinear_unblurred.png" alt="Hearst Bilinear Unblurred">
+                    <figcaption>Hearst Bilinear Unblurred</figcaption>
+                </figure>
+            </div>
         </div>
     </div>
-    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus Part 1</b></p>
-            <img src="imgs/opposite_campanille/IMG_6252.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
 
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus Part 2</b></p>
-            <img src="imgs/opposite_campanille/IMG_6254.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus Part 3</b></p>
-            <img src="imgs/opposite_campanille/IMG_6257.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-    </div>
-    <h3>Part A.2: Recover Homographies</h3>
-
-    <h3>Part A.3: Warp the Images</h3>
-    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Steph Curry Original Image</b></p>
-            <img src="imgs/rectification/steph_unrectified.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Steph Curry Rectified (Nearest Neighbors)</b></p>
-            <img src="imgs/rectification/steph_rectified_nn.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Steph Curry Rectified (Bilinear Interpolation)</b></p>
-            <img src="imgs/rectification/steph_rectified_bilinear.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-    </div>
-    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Windows Original Image</b></p>
-            <img src="imgs/rectification/window_unrectified.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Windows Rectified (Nearest Neighbors)</b></p>
-            <img src="imgs/rectification/window_rectified_nn.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Windows Rectified (Bilinear Interpolation)</b></p>
-            <img src="imgs/rectification/window_rectified_bilinear.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-    </div>
-    
-    <h3>Part A.4: Blend the Images into a Mosaic</h3>
-        <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile Left View</b></p>
-            <img src="imgs/campanile_imgs/IMG_6235.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile Middle View</b></p>
-            <img src="imgs/campanile_imgs/IMG_6237.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile Right View</b></p>
-            <img src="imgs/campanile_imgs/IMG_6239.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-    </div>
-    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile NN Blurred</b></p>
-            <img src="imgs/campanile_imgs/camp_nn_blurred_full.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile NN Unblurred</b></p>
-            <img src="imgs/campanile_imgs/campnnunblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile Bilinear Interpolation Blurred</b></p>
-            <img src="imgs/campanile_imgs/camp_bilinear_blurred_full.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campanile Bilinear Interpolation Unblurred</b></p>
-            <img src="imgs/campanile_imgs/camp_bilinear_full_unblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-    </div>
-    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus Left View</b></p>
-            <img src="imgs/opposite_campanille/IMG_6252.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus Middle View</b></p>
-            <img src="imgs/opposite_campanille/IMG_6254.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus Right View</b></p>
-            <img src="imgs/opposite_campanille/IMG_6257.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-    </div>
-    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus NN Blurred</b></p>
-            <img src="imgs/opposite_campanille/campusnnblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus NN Unblurred</b></p>
-            <img src="imgs/opposite_campanille/campusnnblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus Bilinear Interpolation Blurred</b></p>
-            <img src="imgs/opposite_campanille/campusbilinearblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Campus Bilinear Interpolation Unblurred</b></p>
-            <img src="imgs/opposite_campanille/campusbilinearunblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-    </div>
-        <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Hearst Room Left View</b></p>
-            <img src="imgs/hearst_imgs/IMG_6324.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Hearst Room Right View</b></p>
-            <img src="imgs/hearst_imgs/IMG_6326.jpg" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-    </div>
-    <div style="display: flex; justify-content: space-around; flex-wrap: nowrap;">
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Hearst NN Blurred</b></p>
-            <img src="imgs/hearst_imgs/hearst_full_nn_blurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Hearst NN Unblurred</b></p>
-            <img src="imgs/hearst_imgs/hearst_unblurred_nn.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Hearst Bilinear Interpolation Blurred</b></p>
-            <img src="imgs/hearst_imgs/hearst_bilinear_blurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-
-        <div style="text-align: center; margin: 0 10px;">
-            <p><b>Hearst Bilinear Interpolation Unblurred</b></p>
-            <img src="imgs/hearst_imgs/hearst_bilinear_unblurred.png" style="max-width:100%; max-height:300px; height:auto; width:auto;">
-        </div>
-    </div>
-
-    
 </body>
 </html>
