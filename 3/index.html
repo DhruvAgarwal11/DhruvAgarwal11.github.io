@@ -160,14 +160,14 @@
     </style>
 </head>
 <body>
-    <header class="hero">
-        <div class="hero-inner">
-            <h1>Project 3: [Auto]Stitching Photo Mosaics</h1>
-            <p class="subtitle">Part 1: Image Warping and Mosaicing</p>
-        </div>
-    </header>
 
     <div class="container">
+        <header class="hero">
+            <div class="hero-inner">
+                <h1>Project 3: [Auto]Stitching Photo Mosaics</h1>
+                <p class="subtitle">Part 1: Image Warping and Mosaicing</p>
+            </div>
+        </header>
         <div class="section">
             <h3>A.1: Shoot the Pictures</h3>
             <p>Here are some pictures that I shot of the Campanile, and the part of campus right outside the Campanile.</p>
@@ -188,16 +188,12 @@
             </div>
             <div class="gallery" style="margin-top: 14px;">
                 <figure class="img-card">
-                    <img src="imgs/opposite_campanille/IMG_6252.jpg" alt="Campus Part 1">
+                    <img src="imgs/opposite_campanille/IMG_6254.jpg" alt="Campus Part 2">
                     <figcaption>Campus Part 1</figcaption>
                 </figure>
                 <figure class="img-card">
-                    <img src="imgs/opposite_campanille/IMG_6254.jpg" alt="Campus Part 2">
-                    <figcaption>Campus Part 2</figcaption>
-                </figure>
-                <figure class="img-card">
                     <img src="imgs/opposite_campanille/IMG_6257.jpg" alt="Campus Part 3">
-                    <figcaption>Campus Part 3</figcaption>
+                    <figcaption>Campus Part 2</figcaption>
                 </figure>
             </div>
         </div>
@@ -332,12 +328,8 @@ H = [[ 1.7300776e+00   9.3599614e-03  -5.8921948e+02]
             </div>
             <div class="gallery" style="margin-top: 14px;">
                 <figure class="img-card">
-                    <img src="imgs/opposite_campanille/IMG_6252.jpg" alt="Campus Left View">
+                    <img src="imgs/opposite_campanille/IMG_6254.jpg" alt="Campus Left View">
                     <figcaption>Campus Left View</figcaption>
-                </figure>
-                <figure class="img-card">
-                    <img src="imgs/opposite_campanille/IMG_6254.jpg" alt="Campus Middle View">
-                    <figcaption>Campus Middle View</figcaption>
                 </figure>
                 <figure class="img-card">
                     <img src="imgs/opposite_campanille/IMG_6257.jpg" alt="Campus Right View">
@@ -392,6 +384,152 @@ H = [[ 1.7300776e+00   9.3599614e-03  -5.8921948e+02]
             </div>
         </div>
     </div>
+    
 
+    <div class="container">
+        <header class="hero">
+            <div class="hero-inner">
+                <h1>Project 3: [Auto]Stitching Photo Mosaics</h1>
+                <p class="subtitle">Part 2: Feature Matching for Autostitching</p>
+            </div>
+        </header>
+        <div class="section">
+            <h3>B.1: Harris Corner Detection</h3>
+            <p>The first part of the auto-stitching focused on determining the Harris corners in the image, and implementing Adaptive Non-Maximal Suppression.</p>
+            <p>Filtering by points that are at least 20 pixels inward from an edge, the Harris corner detection algorithm is then utilized to get an initial list of potential features.</p>
+            <p>This is filtered further using AMNS, which is an algorithm where this list of points is further filtered based on maximum distance to a point which has sufficiently higher strength than the current one.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/partb/harrisdetectorleft.png" alt="Harris Detector Left Campanille">
+                    <figcaption>Harris Detector Left Campanille</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/harrisdetectormiddle.png" alt="Harris Detector Middle Campanille">
+                    <figcaption>Harris Detector Middle Campanille</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/harrisdetectorright.png" alt="Harris Detector Right Campanille">
+                    <figcaption>Harris Detector Right Campanille</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/partb/anmsleft.png" alt="ANMS Left Campanille">
+                    <figcaption>ANMS Left Campanille</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/anmsmiddle.png" alt="ANMS Middle Campanille">
+                    <figcaption>ANMS Middle Campanille</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/anmsrigh.png" alt="ANMS Right Campanille">
+                    <figcaption>ANMS Right Campanille</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>B.2 Feature Descriptor Extraction</h3>
+            <p>This part focused on extracting the feature descriptors around the pixels that were found in ANMS. A 40x40 area around the pixel was compressed into 8x8 by choosing every 5 pixels on both the horizontal and vertical axes, to be able to capture a larger area around the pixel. An example of the feature descriptors for the top 5 features from the Harris corner detection algorithm for the left view of the Campanille can be seen here:</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/partb/featuredescriptor1.png" alt="Feature Descriptor 1">
+                    <figcaption>Feature Descriptor 1</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/featuredescriptor2.png" alt="Feature Descriptor 2">
+                    <figcaption>Feature Descriptor 2</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/featuredescriptor3.png" alt="Feature Descriptor 3">
+                    <figcaption>Feature Descriptor 3</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/featuredescriptor4.png" alt="Feature Descriptor 4">
+                    <figcaption>Feature Descriptor 4</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/featuredescriptor5.png" alt="Feature Descriptor 5">
+                    <figcaption>Feature Descriptor 5</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Part B.3: Feature Matching</h3>
+            <p>This part of the project focused on being able to match the feature descriptors from the previous part with each other. A standard approach is typically to just choose the nearest neighbors. However, the authors of the MOPS papers suggest a better approach. The first nearest neighbor and second nearest neighbor are determined, and if the first nearest neighbor is sufficiently stronger than the second one, the features can be considered to be good matches and otherwise they aren't. The threshold I used was 0.6 since the paper suggests that this was the point where it became a little bit more unlikely that the match was the correct one.</p>
+            <p>Below are examples of matched features.</p>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/partb/matchedleft.png" alt="Campanille Left Image">
+                    <figcaption>Campanille Left Image</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/matchedright.png" alt="Campanille Middle Image">
+                    <figcaption>Campanille Middle Image</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Part B.4: RANSAC for Robust Homography</h3>
+            <p>In this part, RANSAC was used to determine the best homography matrix. This was done by choosing 4 random points during several thousand iterations from the coordinates that were left from the previous step, and calculating the exact homography matrix from this. Then, the number of inliers were determined (by checking if the projected pixel from one of the images was within 3 pixels of the other image's pixel), and if the number of inliers was greater than the previous number of inliers, the new set of inliers was kept. Then, after all the iterations, the best set of inliers was used to determine the best homography matrix. </p>
+            <p>Here is a set of comparisons between the mosaics from using automatic vs manual stitching. The automatic stitching tends to lead to slightly more stretched out images, likely due to the homography matrix not being as exact due to less features from factors like rotation invariance not being accounted for. However, it still gets a very good approximation.</p>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/camp_nn_blurred_full.png" alt="Campanile NN Blurred Manual">
+                    <figcaption>Campanile NN Blurred Manual</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/pt4/campnn.png" alt="Campanile NN Blurred Automatic">
+                    <figcaption>Campanile NN Blurred Automatic</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/campanile_imgs/camp_bilinear_blurred_full.png" alt="Campanile Bilinear Blurred Manual">
+                    <figcaption>Campanile Bilinear Blurred Manual</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/pt4/campbilin.png" alt="Campanile Bilinear Blurred Automatic">
+                    <figcaption>Campanile Bilinear Blurred Automatic</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/campusnnblurred.png" alt="Campus NN Blurred Manual">
+                    <figcaption>Campus NN Blurred Manual</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/pt4/campusnn.png" alt="Campus NN Blurred Automatic">
+                    <figcaption>Campus NN Blurred Automatic</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/opposite_campanille/campusbilinearblurred.png" alt="Campus Bilinear Blurred Manual">
+                    <figcaption>Campus Bilinear Blurred Manual</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/pt4/campusbilinear.png" alt="Campus Bilinear Blurred Automatic">
+                    <figcaption>Campus Bilinear Blurred Automatic</figcaption>
+                </figure>
+            </div>
+            <div class="gallery" style="margin-top: 14px;">
+                <figure class="img-card">
+                    <img src="imgs/hearst_imgs/hearst_full_nn_blurred.png" alt="Hearst NN Blurred Manual">
+                    <figcaption>Hearst NN Blurred Manual</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/pt4/hearstnn.png" alt="Hearst NN Blurred Automatic">
+                    <figcaption>Hearst NN Blurred Automatic</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/hearst_imgs/hearst_bilinear_blurred.png" alt="Hearst Bilinear Blurred Manual">
+                    <figcaption>Hearst Bilinear Blurred Manual</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/partb/pt4/hearstbilin.png" alt="Hearst Bilinear Blurred Automatic">
+                    <figcaption>Hearst Bilinear Blurred Automatic</figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
