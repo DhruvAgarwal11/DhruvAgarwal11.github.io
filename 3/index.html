@@ -199,7 +199,7 @@
         </div>
 
         <div class="section">
-            <h3>Part A.2: Recover Homographies</h3>
+            <h3>A.2: Recover Homographies</h3>
             <p>This part of the project focused on constructing homography matrices (3x3) that could be used to transform the coordinates from one plane to another plane. </p>
             <p>The system of equations representing this transformation is Ax = b, where x contains the 8 degrees of freedom in the homography matrix (the last value is just 1). x[0:3] represents the first row, x[3:6] represents the second row, and x[6:8] + [1] represents the last row in the homography matrix.</p>
             <p>In this representation, the least squares problem is solved to determine x, since having just 4 correspondences leads to instability and thus additional correspondences are also provided.</p>
@@ -256,7 +256,7 @@ H = [[ 1.7300776e+00   9.3599614e-03  -5.8921948e+02]
         </div>
 
         <div class="section">
-            <h3>Part A.3: Warp the Images</h3>
+            <h3>A.3: Warp the Images</h3>
             <p>This part consisted of using nearest neighbors and bilinear interpolation techniques to be able to move images into another plane. To ensure that there weren't random gaps in the image when directly applying the homography matrix from the first image to the other image, inverse warping had to be used. This process involved first applying the homography matrix to the first image, determining the boundaries for the image in the new plane, and then performing an inverse warping using the inverse of the homography matrix. When performing this inverse warping, the pixels in the new plane wouldn't directly line up with the pixels in the original plane. Thus, two interpolation methods were used: nearest neighbors and bilinear interpolation. Bilinear interpolation focused on taking the weighted average of four neighboring pixels, while the nearest neighbors approach involved choosing the nearest pixel by euclidean distance in the original image. The pixels were only chosen if they were inside the original boundaries of the initial image.</p>
             <p>Both approaches had their tradeoffs. Nearest neighbors was significantly faster than bilinear interpolation and it was less blurry, but the bilinear interpolation looked a bit smoother. However, nearest neighbors was also relatively smooth.</p>
             <p>These are two examples of images that were rectified using nearest neighbors and bilinear interpolation. The points that were picked were the corners of the Steph Curry poster and window sill on the top with the blinds.</p>
@@ -291,7 +291,7 @@ H = [[ 1.7300776e+00   9.3599614e-03  -5.8921948e+02]
         </div>
 
         <div class="section">
-            <h3>Part A.4: Blend the Images into a Mosaic</h3>
+            <h3>A.4: Blend the Images into a Mosaic</h3>
             <p>This part consisted of blending multiple images into a singular mosaic. To do this, there were multiple steps. I first chose a reference image (the middle image if there were 3 images), and then warped the other images into the plane corresponding to that. I used the correspondence tool created by one of the prior CS180 students to find corresponding points between the images. Then, I created a new canvas which was larger than the size of the reference image to be able to account for where the pixels in the non-reference images were relative to it. This could lead to pixels to the left, right, above, or below the image. Offsets had to be managed appropriately here. The first approach placed the reference image in the canvas, and one-by-one added the other warped images to the canvas, replacing the pixels even if there was already a value there as long as this new image had a non-black pixel there. This led to there being obvious boundaries where the images were being combined with one another.</p>
             <p>Thus, I applied alpha blending to ensure that there was more smoothing. To do this, I created a mask which was 1 at the center of the images, and slowly become 0 at the outside of the image using the distance_transform_edt function. Then, when combining the images, rather than just replacing the pixels when there was a value, it would added to the existing value at that pixel with the appropriate weighting alpha from that image, and then divided at the end by the total of the alphas to normalize it. This led to much more smooth boundaries. This can be seen clearly in the images below.</p>
             <div class="gallery">
@@ -456,7 +456,7 @@ H = [[ 1.7300776e+00   9.3599614e-03  -5.8921948e+02]
         </div>
 
         <div class="section">
-            <h3>Part B.3: Feature Matching</h3>
+            <h3>B.3: Feature Matching</h3>
             <p>This part of the project focused on being able to match the feature descriptors from the previous part with each other. A standard approach is typically to just choose the nearest neighbors. However, the authors of the MOPS papers suggest a better approach. The first nearest neighbor and second nearest neighbor are determined, and if the first nearest neighbor is sufficiently stronger than the second one, the features can be considered to be good matches and otherwise they aren't. The threshold I used was 0.6 since the paper suggests that this was the point where it became a little bit more unlikely that the match was the correct one.</p>
             <p>Below are examples of matched features.</p>
             <div class="gallery" style="margin-top: 14px;">
@@ -472,7 +472,7 @@ H = [[ 1.7300776e+00   9.3599614e-03  -5.8921948e+02]
         </div>
 
         <div class="section">
-            <h3>Part B.4: RANSAC for Robust Homography</h3>
+            <h3>B.4: RANSAC for Robust Homography</h3>
             <p>In this part, RANSAC was used to determine the best homography matrix. This was done by choosing 4 random points during several thousand iterations from the coordinates that were left from the previous step, and calculating the exact homography matrix from this. Then, the number of inliers were determined (by checking if the projected pixel from one of the images was within 3 pixels of the other image's pixel), and if the number of inliers was greater than the previous number of inliers, the new set of inliers was kept. Then, after all the iterations, the best set of inliers was used to determine the best homography matrix. </p>
             <p>Here is a set of comparisons between the mosaics from using automatic vs manual stitching. The automatic stitching tends to lead to slightly more stretched out images, likely due to the homography matrix not being as exact due to less features from factors like rotation invariance not being accounted for. However, it still gets a very good approximation.</p>
             <div class="gallery" style="margin-top: 14px;">
