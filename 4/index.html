@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project 4: Neural Radiance Field!</title>
+    <style>
+        :root {
+            --bg: #0f1220;
+            --panel: #14182b;
+            --panel-2: #0f1424;
+            --text: #e6e8ef;
+            --muted: #a9afc6;
+            --accent: #6ea8fe;
+            --accent-2: #8b5cf6;
+            --border: #262c45;
+            --shadow: 0 10px 25px rgba(0,0,0,0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            color: var(--text);
+            background: radial-gradient(1200px 600px at 10% -10%, rgba(142, 97, 255, 0.15), transparent 40%),
+                        radial-gradient(1200px 600px at 110% 10%, rgba(58, 139, 255, 0.15), transparent 40%),
+                        var(--bg);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        header.hero {
+            background: linear-gradient(135deg, rgba(110,168,254,0.12), rgba(139,92,246,0.12));
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+        }
+
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 24px;
+        }
+
+        h1 {
+            margin: 0 0 6px 0;
+            font-size: 28px;
+            letter-spacing: 0.2px;
+            background: linear-gradient(90deg, #e6e8ef, #a6b9ff 60%, #c5a3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        h2 {
+            margin: 24px 0 12px;
+            font-size: 22px;
+            color: #f3f5ff;
+        }
+
+        h3 {
+            margin: 20px 0 10px;
+            font-size: 18px;
+            color: #e9ecff;
+        }
+
+        p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .section {
+            background: linear-gradient(180deg, var(--panel), var(--panel-2));
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            margin: 18px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            align-items: start;
+        }
+
+        @media (max-width: 960px) {
+            .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 640px) {
+            .gallery { grid-template-columns: 1fr; }
+        }
+
+        figure.img-card {
+            margin: 0;
+            background: #0e1323;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        figure.img-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+        }
+
+        figure.img-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            background: #0b1020;
+        }
+
+        figcaption {
+            padding: 10px 12px;
+            text-align: center;
+            font-size: 14px;
+            color: #d8dcf0;
+            border-top: 1px solid var(--border);
+        }
+
+        .code-block, .matrix-block {
+            background: #0b1020;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            overflow-x: auto;
+            box-shadow: var(--shadow);
+        }
+
+        pre {
+            margin: 0;
+            color: #c7d2fe;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .note {
+            color: #ffd399;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="hero">
+            <div class="hero-inner">
+                <h1>Project 4: Neural Radiance Field!</h1>
+                <p class="subtitle">Part 0: Calibrating Your Camera and Capturing a 3D Scan</p>
+            </div>
+        </header>
+        <div class="section">
+            <p>The goal of this part was to be able to calibrate my camera, determining the intrinsic and extrinsic parameters. To first determine the intrinsic parameters and the distortion coefficients, I took pictures of 6 Aruco Tags from various angles and distances with the same zoom. ArUco tags, which have easily extractable corners, allowed me to detect the corners, which could be mapped to 3D world coordinates by considering the top left corner of the ID 0 tag to be the origin (0, 0, 0), and the rest of the tags corners to be relative to that location (with all z coordinates being 0).</p>
+            <p>Then, I took around 45 pictures of an Avocado stuffed toy with Aruco tags in the image as well to determine the extrinsic parameters. This was done using cv2's solvePnP function. The visualization of this can be seen here: </p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/part0/frustum_1.png" alt="Frustum Image Visualization 1">
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part0/frustum_2.png" alt="Frustum Image Visualization 1">
+                </figure>
+            </div>
+        </div>        
+    </div>
+
+    <div class="container">
+        <header class="hero">
+            <div class="hero-inner">
+                <h1>Project 4: Neural Radiance Field!</h1>
+                <p class="subtitle">Part 1: Fit a Neural Field to a 2D Image</p>
+            </div>
+        </header>
+        <div class="section">
+            <p>In this part of the project, the goal was to use a NeRF on a 2D example, where we were trying to map pixels to the color at that pixel using a multilayer perceptron.</p>
+            <p>This MLP would take in a sinusoidal position embedding, which was a higher-frequency representation of the pixel x and y values. The model architecture utilized was the one described in the diagram on the CS180 website, with a positional embedding as the input, and 4 Linear layers, the first 3 of which are followed by ReLU and the last of which is followed by a sigmoid to get the final RGB value. The first 3 linear layers are tested with widths 64 and 256, with the 256 width MLP performing signifcantly better, as displayed in the tables below. Furthermore, those with greater values of L (indicating the frequency levels) were higher quality images. The learning rate used was 1e-3.</p>
+            <p>Here is the training progression for the test image: </p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/part1/test_image/training_progression/250.png" alt="250 Steps">
+                    <figcaption>250 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/test_image/training_progression/250.png" alt="500 Steps">
+                    <figcaption>500 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/test_image/training_progression/250.png" alt="750 Steps">
+                    <figcaption>750 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/test_image/training_progression/250.png" alt="1000 Steps">
+                    <figcaption>1000 Iterations</figcaption>
+                </figure>
+            </div>
+            <p>Here is a 2x2 table displaying width (W) of linear layers and max position encoding frequency (L) after 1000 iterations on the test image.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/part1/test_image/matrix/three_64.png" alt="L: 3, W:64">
+                    <figcaption>L: 3, W:64</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/test_image/matrix/ten_64.png" alt="L: 10, W:64">
+                    <figcaption>L: 10, W:64</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/test_image/matrix/three_256.png" alt="L: 3, W:256">
+                    <figcaption>L: 3, W:256</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/test_image/matrix/ten_256.png" alt="L: 10, W:256">
+                    <figcaption>L: 10, W:256</figcaption>
+                </figure>
+            </div>
+            <p>Here is the PSNR curve for the width 256 linear layers, and the maximum position encoding frequency of 10:</p>
+            <figure class="img-card">
+                <img src="imgs/part1/test_image/training_progression/psnr_test.png" alt="PSNR Test">
+            </figure>
+            <p>Here is the training progression for my own image, a racket: </p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/part1/racket_image/training_progression/250.png" alt="250 Steps">
+                    <figcaption>250 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/racket_image/training_progression/500.png" alt="500 Steps">
+                    <figcaption>500 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/racket_image/training_progression/750.png" alt="750 Steps">
+                    <figcaption>750 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/racket_image/training_progression/1000.png" alt="1000 Steps">
+                    <figcaption>1000 Iterations</figcaption>
+                </figure>
+            </div>
+            <p>Here is a 2x2 table displaying width (W) of linear layers and max position encoding frequency (L) after 1000 iterations on the racket image.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/part1/racket_image/matrix/three_64.png" alt="L: 3, W:64">
+                    <figcaption>L: 3, W:64</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/racket_image/matrix/ten_64.png" alt="L: 10, W:64">
+                    <figcaption>L: 10, W:64</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/racket_image/matrix/three_256.png" alt="L: 3, W:256">
+                    <figcaption>L: 3, W:256</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part1/racket_image/matrix/ten_256.png" alt="L: 10, W:256">
+                    <figcaption>L: 10, W:256</figcaption>
+                </figure>
+            </div>
+            <p>Here is the PSNR curve for the width 256 linear layers, and the maximum position encoding frequency of 10:</p>
+            <figure class="img-card">
+                <img src="imgs/part1/racket_image/training_progression/psnr.png" alt="PSNR Test">
+            </figure>
+        </div>        
+    </div>
+    <div class="container">
+        <header class="hero">
+            <div class="hero-inner">
+                <h1>Project 4: Neural Radiance Field!</h1>
+                <p class="subtitle">Part 2: Fit a Neural Radiance Field from Multi-view Images</p>
+            </div>
+        </header>
+        <div class="section">
+            <p>In this part of the project, the goal was to use a NeRF to create 3D views of first a Lego scene, and then a test dataset of my own, which was images of my Apple Watch.</p>
+            <p>The first part was to create rays from the pixels to the scene. To do this, I had to first convert the pixel space to the world coordinate space, which is a 3D to 3D transformation. Then, I had to find the coversion between the pixel, which is in the 2D coordinate space, and the 3D camera coordinate space, using the intrinsic matrix. Once this was done, it was easy to get the origin of the ray, which would be when the camera coordinates are 0, and thus would be -t matrix multiplied with the inverse of R, since the opposite of that is used to go from world to camera coordinates. Meanwhile for ray direction, this can be computed by choosing an arbitrary depth, and getting the world coordinate for this, and then normalizing this by subtracting from the origin.</p>
+            <p>Then, the next part was to be able to sample rays from images, where my approach was to first convert all of the pixels from across the images into rays (using the previous part), and then being able to sample an arbitrary amount of them from this huge list. For the training and validation data, we would also have to return the RGB values at these points. In part 2.2, I also had to be able to sample points along the rays, which was done by choosing a near and far parameter for the closest part of the scene that would be measured and the farthest spot, and choosing n_samples across these using the linspace function. Perturbations would be added to training so that more locations along the ray would also be added, rather than just the linearly spaced locations.</p>
+            <p>To verify that all of this was working properly, I rendered the cameras, rays, and samples along those rays for a single camera and for multiple cameras.</p>
+            <p>After this, an MLP was created to predict the RGB and density values for the 3D points that we were sampling. This followed the architecture below:</p>
+            <figure class="img-card">
+                <img src="imgs/part2/mlp_architecture.png" alt="MLP Architecture">
+            </figure>
+            <p>The MLP, using an Adam optimizer had a learning rate of 5e-4, batch size of 10000, and was trained for 2000 iterations. The input ray directions and the 3D coordinates were encoded using the sinusoidal positional encodings with L = 4 for the ray directions and L = 10 for the 3D coordinates.</p>
+            <p>After this, I had to set up the volumetric rendering process, which used the discrete version of the volume rendering equation describe in the CS180 project specification. </p>
+            <p>Here is the training progression of the lego scene over 2000 iterations:</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/part2/predicted_images_lego/200.png" alt="200 Steps">
+                    <figcaption>200 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2/predicted_images_lego/400.png" alt="400 Steps">
+                    <figcaption>400 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2/predicted_images_lego/600.png" alt="600 Steps">
+                    <figcaption>600 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2/predicted_images_lego/1000.png" alt="1000 Steps">
+                    <figcaption>1000 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2/predicted_images_lego/1400.png" alt="1400 Steps">
+                    <figcaption>1400 Iterations</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2/predicted_images_lego/1800.png" alt="1800 Steps">
+                    <figcaption>1800 Iterations</figcaption>
+                </figure>
+            </div>
+            <p>Here is the training PSNR curve, training loss curve, and validation PSNR curve:</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/part2/train_psnr.png" alt="Training PSNR">
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2/validation_psnr.png" alt="Validation PSNR">
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2/train_loss.png" alt="Train Loss">
+                </figure>
+            </div>
+            <p>Here is a visualization of the cameras, rays, and samples along those rays</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/part2/single_camera.png" alt="Single Camera">
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2/multiple_cameras.png" alt="Multiple Cameras">
+                </figure>
+            </div>
+            <p>Here is the gif of the final render (refresh if stopped):</p>
+            <figure class="img-card">
+                <img src="imgs/part2/lego_scene.gif" alt="Lego Render">
+            </figure>
+        </div>        
+    </div>
+    <div class="container">
+        <header class="hero">
+            <div class="hero-inner">
+                <h1>Project 4: Neural Radiance Field!</h1>
+                <p class="subtitle">Part 2.6: Training with Your Own Data</p>
+            </div>
+        </header>
+        <div class="section">
+            <p>This part primarily consisted of using the structure from the NeRF architecture set up earlier in part 2, with minimal changes. First, I had to determine the intrinsic and extrinsic parameters myself. Additionally, I made some hyperparameter adjustments, specifically using a near of 0.02 and a far of 0.8 since that allowed me to capture most of the points of the avocado that I was trying to model. This was done over 10000 iterations, with a learning rate of 5e-4 and a batch size of 10000. The positional encoding of the rays direction and the 3D world coordinates were 4 and 10 respectively.</p>
+            <p>Here are the intermediate renders of the scene during training: </p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/part2_6/iteration200avocado.png" alt="200 Steps">
+                    <figcaption>Iteration 200</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2_6/iteration800avocado.png" alt="800 Steps">
+                    <figcaption>Iteration 800</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2_6/iteration1600avocado.png" alt="1600 Steps">
+                    <figcaption>Iteration 1600</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2_6/iteration2400avocado.png" alt="200 Steps">
+                    <figcaption>Iteration 2400</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2_6/iteration6400avocado.png" alt="200 Steps">
+                    <figcaption>Iteration 6400</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/part2_6/iteration9800avocado.png" alt="9800 Steps">
+                    <figcaption>Iteration 9800</figcaption>
+                </figure>
+            </div>
+            <p>Here is the PSNR curve, and the Loss curve for the training process:</p>
+            <figure class="img-card">
+                <img src="imgs/part2_6/training_psnr_avocado.png" alt="PSNR">
+            </figure>
+            <figure class="img-card">
+                <img src="imgs/part2_6/training_loss_avocado.png" alt="PSNR">
+            </figure>
+            <p>Here is the gif of the final render (refresh if stopped):</p>
+            <figure class="img-card">
+                <img src="imgs/part2_6/avocado_scene.gif" alt="Avocado Render">
+            </figure>
+        </div>        
+    </div>
+</body>
+</html>
