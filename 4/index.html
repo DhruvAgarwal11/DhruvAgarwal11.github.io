@@ -358,7 +358,7 @@
             </div>
         </header>
         <div class="section">
-            <p>This part primarily consisted of using the structure from the NeRF architecture set up earlier in part 2, with minimal changes. First, I had to determine the intrinsic and extrinsic parameters myself. Additionally, I made some hyperparameter adjustments, specifically using a near of 0.02 and a far of 0.8 since that allowed me to capture most of the points of the avocado that I was trying to model. This was done over 10000 iterations, with a learning rate of 5e-4 and a batch size of 10000. The positional encoding of the rays direction and the 3D world coordinates were 4 and 10 respectively.</p>
+            <p>This part primarily consisted of using the structure from the NeRF architecture set up earlier in part 2, with minimal changes. First, I had to determine the intrinsic and extrinsic parameters myself. Additionally, I made some hyperparameter adjustments, specifically using a near of 0.02 and a far of 0.8 since that allowed me to capture most of the points of the avocado that I was trying to model. This object was closer to the camera, so this near and far were appropriate. I also had to resize the images, since they were very large heic images initially, and I used the same aspect ratio to get it to be 300x400. This was done over 10000 iterations, with a learning rate of 5e-4 and a batch size of 10000. The positional encoding of the rays direction and the 3D world coordinates were 4 and 10 respectively.</p>
             <p>Here are the intermediate renders of the scene during training: </p>
             <div class="gallery">
                 <figure class="img-card">
