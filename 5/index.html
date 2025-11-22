@@ -4,15 +4,16 @@
     <title>Project 5: Fun with Diffusion Models!</title>
     <style>
         :root {
-            --bg: #0f1220;
+            --bg: #0a0e1a;
             --panel: #14182b;
             --panel-2: #0f1424;
             --text: #e6e8ef;
             --muted: #a9afc6;
             --accent: #6ea8fe;
             --accent-2: #8b5cf6;
-            --border: #262c45;
-            --shadow: 0 10px 25px rgba(0,0,0,0.35);
+            --border: #1e2438;
+            --shadow: 0 10px 40px rgba(0,0,0,0.4);
+            --shadow-hover: 0 20px 60px rgba(110, 168, 254, 0.2);
         }
 
         * {
@@ -21,103 +22,187 @@
 
         body {
             margin: 0;
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             color: var(--text);
-            background: radial-gradient(1200px 600px at 10% -10%, rgba(142, 97, 255, 0.15), transparent 40%),
-                        radial-gradient(1200px 600px at 110% 10%, rgba(58, 139, 255, 0.15), transparent 40%),
-                        var(--bg);
+            background: 
+                radial-gradient(ellipse 800px 600px at 0% 0%, rgba(142, 97, 255, 0.12), transparent 50%),
+                radial-gradient(ellipse 800px 600px at 100% 100%, rgba(58, 139, 255, 0.12), transparent 50%),
+                linear-gradient(180deg, #0a0e1a 0%, #0f1220 100%);
+            line-height: 1.6;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 32px 24px;
         }
 
         header.hero {
-            background: linear-gradient(135deg, rgba(110,168,254,0.12), rgba(139,92,246,0.12));
-            border-bottom: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            background: linear-gradient(135deg, rgba(110,168,254,0.15), rgba(139,92,246,0.15));
+            border-bottom: 1px solid rgba(110, 168, 254, 0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             position: sticky;
             top: 0;
-            z-index: 10;
-            backdrop-filter: blur(8px);
+            z-index: 100;
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            margin: -32px -24px 40px -24px;
+            padding: 0 24px;
         }
 
         .hero-inner {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px 24px;
+            padding: 32px 0;
         }
 
         h1 {
-            margin: 0 0 6px 0;
-            font-size: 28px;
-            letter-spacing: 0.2px;
-            background: linear-gradient(90deg, #e6e8ef, #a6b9ff 60%, #c5a3ff);
+            margin: 0 0 10px 0;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #a6b9ff 50%, #c5a3ff 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            line-height: 1.1;
+            text-shadow: 0 0 30px rgba(166, 185, 255, 0.3);
         }
 
         .subtitle {
             margin: 0;
             color: var(--muted);
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            opacity: 0.9;
         }
 
         h2 {
-            margin: 24px 0 12px;
-            font-size: 22px;
+            margin: 40px 0 20px 0;
+            font-size: 26px;
+            font-weight: 700;
             color: #f3f5ff;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border-radius: 2px;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
         }
 
         h3 {
-            margin: 20px 0 10px;
-            font-size: 18px;
+            margin: 32px 0 16px 0;
+            font-size: 20px;
+            font-weight: 600;
             color: #e9ecff;
+            letter-spacing: -0.2px;
+            line-height: 1.3;
         }
 
         p {
             color: var(--muted);
-            line-height: 1.6;
+            line-height: 1.75;
+            margin: 0 0 24px 0;
+            font-size: 15px;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
         }
 
         .section {
-            background: linear-gradient(180deg, var(--panel), var(--panel-2));
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 18px;
-            margin: 18px 0;
+            background: linear-gradient(180deg, rgba(20, 24, 43, 0.8), rgba(15, 20, 36, 0.8));
+            border: 1px solid rgba(110, 168, 254, 0.15);
+            border-radius: 20px;
+            padding: 36px;
+            margin: 32px 0;
             box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: rgba(110, 168, 254, 0.25);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+        }
+
+        .section > h2:first-child {
+            margin-top: 0;
         }
 
         .gallery {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
+            gap: 20px;
             align-items: start;
+            margin: 28px 0;
         }
 
         @media (max-width: 960px) {
-            .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .gallery { 
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 18px;
+            }
         }
         @media (max-width: 640px) {
-            .gallery { grid-template-columns: 1fr; }
+            .gallery { 
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
         }
 
         figure.img-card {
-            margin: 0;
-            background: #0e1323;
-            border: 1px solid var(--border);
-            border-radius: 12px;
+            margin: 0 0 28px 0;
+            background: linear-gradient(180deg, #0e1323, #0a0f1a);
+            border: 1px solid rgba(110, 168, 254, 0.2);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform .2s ease, box-shadow .2s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
+
+        figure.img-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(110, 168, 254, 0.05), rgba(139, 92, 246, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        figure.img-card:hover::before {
+            opacity: 1;
+        }
+
+        .gallery figure.img-card {
+            margin: 0;
+        }
+
         figure.img-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(110, 168, 254, 0.4);
         }
 
         figure.img-card img {
@@ -127,35 +212,79 @@
             max-height: 400px;
             object-fit: contain;
             background: #0b1020;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 0;
+        }
+
+        figure.img-card:hover img {
+            transform: scale(1.02);
         }
 
         figcaption {
-            padding: 10px 12px;
+            padding: 14px 16px;
             text-align: center;
             font-size: 14px;
+            font-weight: 600;
             color: #d8dcf0;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid rgba(110, 168, 254, 0.15);
+            background: linear-gradient(180deg, rgba(14, 19, 35, 0.8), rgba(10, 15, 26, 0.8));
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.3px;
         }
 
         .code-block, .matrix-block {
-            background: #0b1020;
-            border: 1px solid var(--border);
+            background: linear-gradient(180deg, #0b1020, #080c15);
+            border: 1px solid rgba(110, 168, 254, 0.2);
             border-radius: 12px;
-            padding: 14px;
+            padding: 20px;
             overflow-x: auto;
-            box-shadow: var(--shadow);
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+            margin: 24px 0;
         }
 
         pre {
             margin: 0;
             color: #c7d2fe;
-            font-size: 12px;
-            line-height: 1.4;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
         }
 
         .note {
             color: #ffd399;
             font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            header.hero {
+                margin: -24px -16px 32px -16px;
+                padding: 0 16px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .section {
+                padding: 24px;
+                margin: 24px 0;
+            }
+
+            h2 {
+                font-size: 22px;
+                margin: 32px 0 16px 0;
+            }
+
+            h3 {
+                font-size: 18px;
+                margin: 24px 0 12px 0;
+            }
         }
     </style>
 </head>
