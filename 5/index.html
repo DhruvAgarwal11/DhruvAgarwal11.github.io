@@ -257,7 +257,72 @@
             font-weight: 600;
         }
 
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 28px 0;
+            background: linear-gradient(180deg, #0e1323, #0a0f1a);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            border: 1px solid rgba(110, 168, 254, 0.2);
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, rgba(110, 168, 254, 0.15), rgba(139, 92, 246, 0.15));
+        }
+
+        .comparison-table th {
+            padding: 16px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 15px;
+            color: #f3f5ff;
+            letter-spacing: 0.3px;
+            border-bottom: 2px solid rgba(110, 168, 254, 0.3);
+        }
+
+        .comparison-table td {
+            padding: 20px;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(110, 168, 254, 0.1);
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: rgba(110, 168, 254, 0.05);
+        }
+
+        .comparison-table .table-img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #0b1020;
+        }
+
+        .comparison-table .table-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(110, 168, 254, 0.3);
+        }
+
         @media (max-width: 768px) {
+            .comparison-table {
+                font-size: 12px;
+            }
+            .comparison-table th,
+            .comparison-table td {
+                padding: 12px 8px;
+            }
+            .comparison-table .table-img {
+                max-width: 150px;
+            }
             .container {
                 padding: 24px 16px;
             }
@@ -612,6 +677,814 @@
                     <figcaption>Jacket and Cake</figcaption>
                 </figure>
             </div>
+        </div>    
+    </div>
+    <div class="container">
+        <header class="hero">
+            <div class="hero-inner">
+                <h1>Project 5: Fun with Diffusion Models!</h1>
+                <p class="subtitle">Part B: Flow Matching From Scratch!</p>
+            </div>
+        </header>
+        <div class="section">
+            <h2>Part 1: Training a Single-Step Denoising UNet</h2>
+            <h3>1.2 Using the UNet to Train a Denoiser</h3>
+            <p>Here is the Campanile at different noise levels.</p>
+            <div class="gallery">
+                <figure class = "img-card">
+                    <img src="imgs/proj5b/part1_2/noise_level_0.0.png" alt="Noise Level 0.0">
+                    <figcaption>Noise Level 0.0</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part1_2/noise_level_0.2.png" alt="Noise Level 0.2">
+                    <figcaption>Noise Level 0.2</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part1_2/noise_level_0.4.png" alt="Noise Level 0.4">
+                    <figcaption>Noise Level 0.4</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part1_2/noise_level_0.5.png" alt="Noise Level 0.5">
+                    <figcaption>Noise Level 0.5</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part1_2/noise_level_0.6.png" alt="Noise Level 0.6">
+                    <figcaption>Noise Level 0.6</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part1_2/noise_level_0.8.png" alt="Noise Level 0.8">
+                    <figcaption>Noise Level 0.8</figcaption>
+                </figure>
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part1_2/noise_level_1.0.png" alt="Noise Level 1.0">
+                    <figcaption>Noise Level 1.0</figcaption>
+                </figure>
+            </div>
+            <h3>1.2.1 Training</h3>
+            <p>Here is the training loss curve, and results of different samples from after epoch 1 and 5.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part1_2_1/training_loss_curve.png" alt="Training Loss Curve">
+                    <figcaption>Training Loss Curve</figcaption>
+                </figure>
+            </div>
+            <p>Comparison of original, noisy, and denoised images at different training epochs:</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Original Image</th>
+                        <th>Noisy Image</th>
+                        <th>Denoised (Epoch 1)</th>
+                        <th>Denoised (Epoch 5)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_1/orig_img_0.png" alt="Original Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/noisy_image_0.png" alt="Noisy Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_0_image_0.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_4_image_0.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_1/orig_img_1.png" alt="Original Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/noisy_image_1.png" alt="Noisy Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_0_image_1.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_4_image_1.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_1/orig_img_2.png" alt="Original Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/noisy_image_2.png" alt="Noisy Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_0_image_2.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_4_image_2.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_1/orig_img_3.png" alt="Original Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/noisy_image_3.png" alt="Noisy Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_0_image_3.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_4_image_3.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_1/orig_img_4.png" alt="Original Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/noisy_image_4.png" alt="Noisy Image" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_0_image_4.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_1/denoised_img_epoch_4_image_4.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                </tbody>
+            </table>
+            <h3>1.2.2 Out of Distribution Testing</h3>
+            <p>Here are the results of the out of distribution testing on different noise levels.</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Noise Level 0.0</th>
+                        <th>Noise Level 0.2</th>
+                        <th>Noise Level 0.4</th>
+                        <th>Noise Level 0.5</th>
+                        <th>Noise Level 0.6</th>
+                        <th>Noise Level 0.8</th>
+                        <th>Noise Level 1.0</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.0_image_0.png" alt="OOD Noise Level 0.0" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.2_image_0.png" alt="OOD Noise Level 0.2" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.4_image_0.png" alt="OOD Noise Level 0.4" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.5_image_0.png" alt="OOD Noise Level 0.5" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.6_image_0.png" alt="OOD Noise Level 0.6" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.8_image_0.png" alt="OOD Noise Level 0.8" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_1.0_image_0.png" alt="OOD Noise Level 1.0" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.0_image_1.png" alt="OOD Noise Level 0.0" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.2_image_1.png" alt="OOD Noise Level 0.2" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.4_image_1.png" alt="OOD Noise Level 0.4" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.5_image_1.png" alt="OOD Noise Level 0.5" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.6_image_1.png" alt="OOD Noise Level 0.6" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.8_image_1.png" alt="OOD Noise Level 0.8" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_1.0_image_1.png" alt="OOD Noise Level 1.0" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.0_image_2.png" alt="OOD Noise Level 0.0" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.2_image_2.png" alt="OOD Noise Level 0.2" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.4_image_2.png" alt="OOD Noise Level 0.4" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.5_image_2.png" alt="OOD Noise Level 0.5" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.6_image_2.png" alt="OOD Noise Level 0.6" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.8_image_2.png" alt="OOD Noise Level 0.8" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_1.0_image_2.png" alt="OOD Noise Level 1.0" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.0_image_3.png" alt="OOD Noise Level 0.0" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.2_image_3.png" alt="OOD Noise Level 0.2" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.4_image_3.png" alt="OOD Noise Level 0.4" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.5_image_3.png" alt="OOD Noise Level 0.5" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.6_image_3.png" alt="OOD Noise Level 0.6" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.8_image_3.png" alt="OOD Noise Level 0.8" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_1.0_image_3.png" alt="OOD Noise Level 1.0" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.0_image_4.png" alt="OOD Noise Level 0.0" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.2_image_4.png" alt="OOD Noise Level 0.2" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.4_image_4.png" alt="OOD Noise Level 0.4" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.5_image_4.png" alt="OOD Noise Level 0.5" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.6_image_4.png" alt="OOD Noise Level 0.6" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_0.8_image_4.png" alt="OOD Noise Level 0.8" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_2/ood_noise_level_1.0_image_4.png" alt="OOD Noise Level 1.0" class="table-img"></td>
+                        </tr>
+                </tbody>
+            </table>
+            <h3>1.2.3 Denoising Pure Noise</h3>
+            <p>Here is the training loss curve from denoising pure noise, and results of different samples from after epoch 1 and 5.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part1_2_3/training_loss_curve.png" alt="Training Loss Curve">
+                    <figcaption>Training Loss Curve</figcaption>
+                </figure>
+            </div>
+            <p>Here are results from denoising pure noise at epoch 1 and 5. We can see that the denoised images look like a combination of multiple different numbers, which makes sense since the algorithm is trying to minimize the Euclidean distance between the denoised image and the original image.</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Denoised (Epoch 1)</th>
+                        <th>Denoised (Epoch 5)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_1_image_0.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_5_image_0.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_1_image_1.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_5_image_1.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_1_image_2.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_5_image_2.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_1_image_3.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_5_image_3.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_1_image_4.png" alt="Denoised Epoch 1" class="table-img"></td>
+                            <td><img src="imgs/proj5b/part1_2_3/generated_img_epoch_5_image_4.png" alt="Denoised Epoch 5" class="table-img"></td>
+                        </tr>
+                </tbody>
+            </table>
+            <h3>2.2 Training the UNet</h3>
+            <p>Here is the training loss curve from training the UNet.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part2_2/training_loss_curve.png" alt="Training Loss Curve">
+                    <figcaption>Training Loss Curve</figcaption>
+                </figure>
+            </div>
+            <h3>2.3 Sampling from the UNet</h3>
+            <p>Here are the results from after Epoch 1.</p>
+            <table class="comparison-table">
+                <tbody>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_0.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_1.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_2.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_3.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_4.png" alt="Sample 4" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_5.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_6.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_7.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_8.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_9.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_10.png" alt="Sample 10" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_11.png" alt="Sample 11" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_12.png" alt="Sample 12" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_13.png" alt="Sample 13" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_14.png" alt="Sample 14" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_15.png" alt="Sample 15" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_16.png" alt="Sample 16" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_17.png" alt="Sample 17" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_18.png" alt="Sample 18" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_19.png" alt="Sample 19" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_20.png" alt="Sample 20" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_21.png" alt="Sample 21" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_22.png" alt="Sample 22" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_23.png" alt="Sample 23" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_24.png" alt="Sample 24" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_25.png" alt="Sample 25" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_26.png" alt="Sample 26" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_27.png" alt="Sample 27" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_28.png" alt="Sample 28" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_29.png" alt="Sample 29" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_30.png" alt="Sample 30" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_31.png" alt="Sample 31" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_32.png" alt="Sample 32" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_33.png" alt="Sample 33" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_34.png" alt="Sample 34" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_35.png" alt="Sample 35" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_36.png" alt="Sample 36" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_37.png" alt="Sample 37" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_38.png" alt="Sample 38" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_39.png" alt="Sample 39" class="table-img"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Here are the results from after Epoch 5.</p>
+            <table class="comparison-table">
+                <tbody>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_0.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_1.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_2.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_3.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_4.png" alt="Sample 4" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_5.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_1_sample_6.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_7.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_8.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_9.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_10.png" alt="Sample 10" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_11.png" alt="Sample 11" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_12.png" alt="Sample 12" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_13.png" alt="Sample 13" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_14.png" alt="Sample 14" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_15.png" alt="Sample 15" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_16.png" alt="Sample 16" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_17.png" alt="Sample 17" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_18.png" alt="Sample 18" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_19.png" alt="Sample 19" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_20.png" alt="Sample 20" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_21.png" alt="Sample 21" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_22.png" alt="Sample 22" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_23.png" alt="Sample 23" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_24.png" alt="Sample 24" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_25.png" alt="Sample 25" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_26.png" alt="Sample 26" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_27.png" alt="Sample 27" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_28.png" alt="Sample 28" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_29.png" alt="Sample 29" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_30.png" alt="Sample 30" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_31.png" alt="Sample 31" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_32.png" alt="Sample 32" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_33.png" alt="Sample 33" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_34.png" alt="Sample 34" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_35.png" alt="Sample 35" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_36.png" alt="Sample 36" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_37.png" alt="Sample 37" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_38.png" alt="Sample 38" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_5_sample_39.png" alt="Sample 39" class="table-img"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Here are the results from after Epoch 10.</p>
+            <table class="comparison-table">
+                <tbody>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_0.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_1.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_2.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_3.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_4.png" alt="Sample 4" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_5.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_6.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_7.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_8.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_9.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_10.png" alt="Sample 10" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_11.png" alt="Sample 11" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_12.png" alt="Sample 12" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_13.png" alt="Sample 13" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_14.png" alt="Sample 14" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_15.png" alt="Sample 15" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_16.png" alt="Sample 16" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_17.png" alt="Sample 17" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_18.png" alt="Sample 18" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_19.png" alt="Sample 19" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_20.png" alt="Sample 20" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_21.png" alt="Sample 21" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_22.png" alt="Sample 22" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_23.png" alt="Sample 23" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_24.png" alt="Sample 24" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_25.png" alt="Sample 25" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_26.png" alt="Sample 26" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_27.png" alt="Sample 27" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_28.png" alt="Sample 28" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_29.png" alt="Sample 29" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_30.png" alt="Sample 30" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_31.png" alt="Sample 31" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_32.png" alt="Sample 32" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_33.png" alt="Sample 33" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_34.png" alt="Sample 34" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_35.png" alt="Sample 35" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_36.png" alt="Sample 36" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_37.png" alt="Sample 37" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_38.png" alt="Sample 38" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_3/epoch_10_sample_39.png" alt="Sample 39" class="table-img"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>2.5 Training the UNet</h3>
+            <p>Here is the training loss curve from denoising pure noise, and results of different samples from after epoch 1 and 5.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part2_5/training_loss_curve.png" alt="Training Loss Curve">
+                    <figcaption>Training Loss Curve</figcaption>
+                </figure>
+            </div>
+            <h3>2.6 Sampling from the UNet</h3>
+            <p>Here are the results from after Epoch 1.</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_0_sample_0.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_1_sample_0.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_2_sample_0.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_3_sample_0.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_4_sample_0.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_5_sample_0.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_6_sample_0.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_7_sample_0.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_8_sample_0.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_9_sample_0.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_0_sample_1.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_1_sample_1.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_2_sample_1.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_3_sample_1.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_4_sample_1.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_5_sample_1.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_6_sample_1.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_7_sample_1.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_8_sample_1.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_9_sample_1.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_0_sample_2.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_1_sample_2.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_2_sample_2.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_3_sample_2.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_4_sample_2.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_5_sample_2.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_6_sample_2.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_7_sample_2.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_8_sample_2.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_9_sample_2.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_0_sample_3.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_1_sample_3.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_2_sample_3.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_3_sample_3.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_4_sample_3.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_5_sample_3.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_6_sample_3.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_7_sample_3.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_8_sample_3.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_1_num_9_sample_3.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Here are the results from after Epoch 5.</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_0_sample_0.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_1_sample_0.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_2_sample_0.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_3_sample_0.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_4_sample_0.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_5_sample_0.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_6_sample_0.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_7_sample_0.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_8_sample_0.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_9_sample_0.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_0_sample_1.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_1_sample_1.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_2_sample_1.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_3_sample_1.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_4_sample_1.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_5_sample_1.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_6_sample_1.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_7_sample_1.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_8_sample_1.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_9_sample_1.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_0_sample_2.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_1_sample_2.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_2_sample_2.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_3_sample_2.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_4_sample_2.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_5_sample_2.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_6_sample_2.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_7_sample_2.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_8_sample_2.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_9_sample_2.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_0_sample_3.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_1_sample_3.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_2_sample_3.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_3_sample_3.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_4_sample_3.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_5_sample_3.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_6_sample_3.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_7_sample_3.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_8_sample_3.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_5_num_9_sample_3.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                </tbody>
+            
+            </table>
+            <table class="comparison-table">
+                <p>Here are the results from after Epoch 10.</p>
+                <thead>
+                    <tr>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_0_sample_0.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_1_sample_0.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_2_sample_0.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_3_sample_0.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_4_sample_0.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_5_sample_0.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_6_sample_0.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_7_sample_0.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_8_sample_0.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_9_sample_0.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_0_sample_1.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_1_sample_1.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_2_sample_1.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_3_sample_1.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_4_sample_1.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_5_sample_1.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_6_sample_1.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_7_sample_1.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_8_sample_1.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_9_sample_1.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_0_sample_2.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_1_sample_2.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_2_sample_2.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_3_sample_2.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_4_sample_2.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_5_sample_2.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_6_sample_2.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_7_sample_2.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_8_sample_2.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_9_sample_2.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_0_sample_3.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_1_sample_3.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_2_sample_3.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_3_sample_3.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_4_sample_3.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_5_sample_3.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_6_sample_3.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_7_sample_3.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_8_sample_3.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6/epoch_10_num_9_sample_3.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>2.6 (Part 2) Sampling from the UNet without Learning Rate Scheduling</h3>
+            <p>In this part, I removed the learning rate scheduler, instead modifying the learning rate to be 1e-4, which led to pretty strong performance as shown in these samples.</p>
+            <div class="gallery">
+                <figure class="img-card">
+                    <img src="imgs/proj5b/part2_6_2/training_loss_curve.png" alt="Training Loss Curve">
+                    <figcaption>Training Loss Curve</figcaption>
+                </figure>
+            </div>
+            <p>Here are the results from after Epoch 1.</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_0_sample_0.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_1_sample_0.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_2_sample_0.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_3_sample_0.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_4_sample_0.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_5_sample_0.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_6_sample_0.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_7_sample_0.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_8_sample_0.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_9_sample_0.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_0_sample_1.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_1_sample_1.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_2_sample_1.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_3_sample_1.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_4_sample_1.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_5_sample_1.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_6_sample_1.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_7_sample_1.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_8_sample_1.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_9_sample_1.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_0_sample_2.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_1_sample_2.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_2_sample_2.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_3_sample_2.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_4_sample_2.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_5_sample_2.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_6_sample_2.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_7_sample_2.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_8_sample_2.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_9_sample_2.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_0_sample_3.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_1_sample_3.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_2_sample_3.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_3_sample_3.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_4_sample_3.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_5_sample_3.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_6_sample_3.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_7_sample_3.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_8_sample_3.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_1_num_9_sample_3.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Here are the results from after Epoch 5.</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_0_sample_0.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_1_sample_0.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_2_sample_0.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_3_sample_0.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_4_sample_0.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_5_sample_0.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_6_sample_0.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_7_sample_0.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_8_sample_0.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_9_sample_0.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_0_sample_1.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_1_sample_1.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_2_sample_1.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_3_sample_1.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_4_sample_1.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_5_sample_1.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_6_sample_1.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_7_sample_1.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_8_sample_1.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_9_sample_1.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_0_sample_2.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_1_sample_2.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_2_sample_2.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_3_sample_2.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_4_sample_2.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_5_sample_2.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_6_sample_2.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_7_sample_2.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_8_sample_2.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_9_sample_2.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_0_sample_3.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_1_sample_3.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_2_sample_3.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_3_sample_3.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_4_sample_3.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_5_sample_3.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_6_sample_3.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_7_sample_3.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_8_sample_3.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_5_num_9_sample_3.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                </tbody>
+            
+            </table>
+            <table class="comparison-table">
+                <p>Here are the results from after Epoch 10.</p>
+                <thead>
+                    <tr>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_0_sample_0.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_1_sample_0.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_2_sample_0.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_3_sample_0.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_4_sample_0.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_5_sample_0.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_6_sample_0.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_7_sample_0.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_8_sample_0.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_9_sample_0.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_0_sample_1.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_1_sample_1.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_2_sample_1.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_3_sample_1.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_4_sample_1.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_5_sample_1.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_6_sample_1.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_7_sample_1.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_8_sample_1.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_9_sample_1.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_0_sample_2.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_1_sample_2.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_2_sample_2.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_3_sample_2.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_4_sample_2.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_5_sample_2.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_6_sample_2.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_7_sample_2.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_8_sample_2.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_9_sample_2.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_0_sample_3.png" alt="Sample 0" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_1_sample_3.png" alt="Sample 1" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_2_sample_3.png" alt="Sample 2" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_3_sample_3.png" alt="Sample 3" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_4_sample_3.png" alt="Sample 4" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_5_sample_3.png" alt="Sample 5" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_6_sample_3.png" alt="Sample 6" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_7_sample_3.png" alt="Sample 7" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_8_sample_3.png" alt="Sample 8" class="table-img"></td>
+                        <td><img src="imgs/proj5b/part2_6_2/epoch_10_num_9_sample_3.png" alt="Sample 9" class="table-img"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>    
     </div>
 </body>
